@@ -10,6 +10,7 @@ const Login = () => {
   const passwordRef = useRef("");
   const dispatch = useDispatch();
   const { error, isLoading } = useSelector((state) => state.app);
+  const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +20,7 @@ const Login = () => {
     ) {
       return toast.error("All fields are mandatory!");
     }
+    if(!emailReg.test(emailRef.current.value)) return toast.error("Email should be a correct format");
 
     const data = {
       email: emailRef.current.value,
@@ -62,7 +64,6 @@ const Login = () => {
             ref={emailRef}
             className=" p-2 w-full border border-slate-400 "
             placeholder="Enter Email"
-            required={true}
           />
           <input
             type="password"

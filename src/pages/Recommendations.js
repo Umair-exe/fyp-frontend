@@ -14,6 +14,7 @@ const Recommendations = () => {
   const [recommendations, setRecommendations] = useState(null);
   const dispatch = useDispatch();
 
+  console.log(recommendations);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (question1 && question2 && question3) {
@@ -24,20 +25,27 @@ const Recommendations = () => {
       };
       setRecommendations(null);
       dispatch(start());
-      return axios
+      axios
         .post(`${process.env.REACT_APP_URL}/api/recommendations`, data, {
           headers: {
             access_token: getToken(),
           },
         })
         .then((res) => {
-          dispatch(stop());
           setRecommendations(res.data);
+          axios
+            .post(`${process.env.REACT_APP_URL}/api/history`, res.data, {
+              headers: {
+                access_token: getToken(),
+              },
+            })
+            .catch((err) => toast.error(err.response.data.message));
         })
         .catch((err) => {
           dispatch(stop());
           toast.error(err.response.data.message);
         });
+      return dispatch(stop());
     }
     return toast.error("All fields must be selected");
   };
@@ -109,7 +117,7 @@ const Recommendations = () => {
           <button
             type="submit"
             className="p-2 w-full bg-slate-600 text-white disabled:cursor-not-allowed"
-            disabled={isLoading}
+            // disabled={isLoading}
           >
             {isLoading ? (
               <div className="animate-bounce text-xl">...</div>
@@ -119,13 +127,14 @@ const Recommendations = () => {
           </button>
         </form>
       </div>
-      {recommendations?.remarks ? (
-        <Recommendation recommendations={recommendations} />
-      ) : (
-        <p className="mt-5 text-2xl text-zinc-600">
-          {recommendations?.recommendations}
-        </p>
-      )}
+      {!isLoading &&
+        (recommendations?.recommendations.length > 0 ?(
+          <Recommendation recommendations={recommendations} />
+        ) : (
+          <p className="mt-5 text-2xl text-zinc-600">
+            {recommendations?.recommendations}
+          </p>
+        ))}
     </div>
   );
 };

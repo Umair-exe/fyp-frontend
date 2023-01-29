@@ -8,20 +8,25 @@ const Sidebar = () => {
     <div className="mt-8">
       <div>
         <Link to="/" className="text-white text-5xl">
-          Logo
+          FYP
         </Link>
       </div>
-      {user.role === "admin" && (
-        <div className="text-white flex flex-col items-center gap-y-10 mt-20">
-          <Link to="/rules" className="focus:border-b-2 ">
-            Rules
-          </Link>
+      <div className="text-white flex flex-col items-center gap-y-10 mt-20">
+        {user.role === "admin" && (
+          <>
+            <Link to="/rules" className="focus:border-b-2 ">
+              Rules
+            </Link>
 
-          <Link to="/users" className="focus:border-b-2 ">
-            Users
-          </Link>
-        </div>
-      )}
+            <Link to="/users" className="focus:border-b-2 ">
+              Users
+            </Link>
+          </>
+        )}
+        <Link to="/history" className="focus:border-b-2 ">
+          View History
+        </Link>
+      </div>
     </div>
   );
 };

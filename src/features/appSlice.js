@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   token: null || localStorage.getItem("access_token"),
   isLoading: false,
+  history: [],
 };
 
 export const appSlice = createSlice({
@@ -34,10 +35,13 @@ export const appSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setHistory: (state,action) => {
+      state.history = action.payload;
+    }
   },
 });
 
-export const { login, logout, setError, start, stop, setUser } =
+export const { login, logout, setError, start, stop, setUser, setHistory } =
   appSlice.actions;
 
 export default appSlice.reducer;

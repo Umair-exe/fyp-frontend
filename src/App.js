@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 import RulesPage from "./pages/RulesPage";
 import Users from "./pages/Users";
 import Recommendations from './pages/Recommendations';
+import History from "./pages/History";
 
 function App() {
   const { user } = useSelector((state) => state.app);
@@ -32,6 +33,7 @@ function App() {
                 </>
               )}
               <Route path="/low-recommendations" element={<Recommendations />} />
+              <Route path="/history" element={<History />} />
             </Route>
           </>
         ) : (
